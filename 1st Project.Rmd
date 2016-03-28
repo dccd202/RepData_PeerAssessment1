@@ -1,0 +1,62 @@
+---
+title: "RP Course Project 1"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(RCurl)
+DataLink <- tempfile()
+download.file("https://github.com/dccd202/RepData_PeerAssessment1/raw/master/activity.zip",DataLink)
+SpyData <- na.omit(read.csv((unz(DataLink, "activity.csv")), header = T))
+```
+```{r}
+
+library(RCurl)
+DataLink <- tempfile()
+download.file("https://github.com/dccd202/RepData_PeerAssessment1/raw/master/activity.zip",DataLink)
+SpyData <- na.omit(read.csv((unz(DataLink, "activity.csv")), header = T))
+StepsDay <- aggregate(steps ~ date, SpyData, sum)
+hist(StepsDay$steps)
+mean(StepsDay$steps)
+median(StepsDay$steps)
+mean(SpyData$steps)
+
+```
+
+```{r}
+library(RCurl)
+DataLink <- tempfile()
+download.file("https://github.com/dccd202/RepData_PeerAssessment1/raw/master/activity.zip",DataLink)
+NASpyData <- (read.csv((unz(DataLink, "activity.csv")), header = T))
+NASpyData[is.na(NASpyData)] <- 37
+NAStepsDay <- aggregate(steps ~ date, NASpyData, sum)
+hist(NAStepsDay$steps)
+mean(NAStepsDay$steps)
+median(NAStepsDay$steps)
+```
+
+```{r}
+NASpyData <- (read.csv((unz(DataLink, "activity.csv")), header = T))
+NASpyData[is.na(NASpyData)] <- 37
+NAStepsDay <- aggregate(steps ~ date, NASpyData, sum)
+for (i in 1:nrow(NAStepsDay)) {
+  if (NAStepsDay$DayWk[i] %in% PartyTime == TRUE) {
+    NAStepsDay$Weekend[i] <- "WEEKEND"
+    }
+  else {
+    NAStepsDay$Weekend[i] <- "WEEKDAY"
+  }
+  }
+
+NAStepsDay$Weekend <- as.factor(NAStepsDay$Weekend)
+ggplot(NAStepsDay, aes(y = steps, x= date, group = 1)) +  facet_grid(Weekend ~ .) + geom_line() + geom_point()
+
+````
+
+```{r}
+echo = TRUE
+```
